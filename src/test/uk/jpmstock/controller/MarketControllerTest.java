@@ -76,7 +76,7 @@ public class MarketControllerTest {
 		
 		marketController.addStock(c_stock1);
 		
-		marketController.registerTradeRecord("POP", new BigDecimal("30.65"), (new Date()).getTime(), 445639L, 'b');
+		marketController.registerTradeRecord("POP", new BigDecimal("30.65"), (new Date()).getTime(), 445639L, BuySellType.BUY);
 		
 		Stock c_s = marketController.getStockCollection().get("POP");
 		long dealQuntity = ((TradeRecord)c_s.getTradeRecords().get(0)).getQuantity();
@@ -101,15 +101,14 @@ public class MarketControllerTest {
 		
 		assertEquals(new BigDecimal("30.65"), expected.setScale(2, BigDecimal.ROUND_HALF_EVEN));
 		
-		marketController.registerTradeRecord("POP", new BigDecimal("30.65"), (new Date()).getTime(), 439L, 'b');
-		marketController.registerTradeRecord("POP", new BigDecimal("31.65"), (new Date()).getTime(), 435L, 's');
-		marketController.registerTradeRecord("POP", new BigDecimal("32.45"), (new Date()).getTime(), 459L, 'b');
-		marketController.registerTradeRecord("POP", new BigDecimal("36.80"), (new Date()).getTime(), 435L, 's');
+		marketController.registerTradeRecord("POP", new BigDecimal("30.65"), (new Date()).getTime(), 4639, BuySellType.BUY);
+		marketController.registerTradeRecord("POP", new BigDecimal("31.65"), (new Date()).getTime(), 4355, BuySellType.SELL);
+		marketController.registerTradeRecord("POP", new BigDecimal("32.45"), (new Date()).getTime(), 459, BuySellType.BUY);
+		marketController.registerTradeRecord("POP", new BigDecimal("36.80"), (new Date()).getTime(), 435, BuySellType.SELL);
 		
 		expected = marketController.getVolumeWeightedPrice("POP", 5);		
 		
-		assertEquals(expected, new BigDecimal("32.88"));
-		
+		assertEquals(expected, new BigDecimal("31.44"));		
 	}
 	
 	@Test
