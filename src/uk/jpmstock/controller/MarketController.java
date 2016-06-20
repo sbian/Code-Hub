@@ -61,7 +61,7 @@ public class MarketController {
 		if (!stockCollection.containsKey(stock.getSymbolName()))
 			throw new NotExistStockException();
 
-		stockCollection.remove(stock);
+		stockCollection.remove(stock.getSymbolName());
 	}
 
 	/**

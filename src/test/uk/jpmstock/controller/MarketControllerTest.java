@@ -57,7 +57,7 @@ public class MarketControllerTest {
 		
 		marketController.removeStock(c_stock2);
 		
-		assertFalse(marketController.getStockCollection().isEmpty());	
+		assertTrue(marketController.getStockCollection().isEmpty());	
 	}
 
 	@Test
