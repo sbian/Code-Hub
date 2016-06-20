@@ -15,7 +15,9 @@ import uk.jpmstock.persistence.BuySellType;
 import uk.jpmstock.persistence.Stock;
 import uk.jpmstock.persistence.StockCommon;
 import uk.jpmstock.persistence.TradeRecord;
+import uk.jpmstock.util.DivideZeroOrMinusException;
 import uk.jpmstock.util.DuplicateStockException;
+import uk.jpmstock.util.NoTradeException;
 import uk.jpmstock.util.NotExistStockException;
 
 /**
@@ -83,12 +85,30 @@ public class MarketControllerTest {
 	}
 
 	@Test
-	public void testGetAllShareIndex() {
+	public void testGetAllShareIndex() throws DuplicateStockException {
+		marketController.addStock(c_stock1);
+		marketController.addStock(c_stock2);
+		BigDecimal index =  marketController.getAllShareIndex();
+			
+		assertEquals(index, new BigDecimal("25"));
 		
 	}
 
 	@Test
-	public void testGetVolumeWeightedPrice() {
+	public void testGetVolumeWeightedPrice() throws DuplicateStockException, NotExistStockException, NoTradeException, DivideZeroOrMinusException {
+		marketController.addStock(c_stock1);
+		BigDecimal expected = marketController.getVolumeWeightedPrice("POP", 5);
+		
+		assertEquals(new BigDecimal("30.65"), expected.setScale(2, BigDecimal.ROUND_HALF_EVEN));
+		
+		marketController.registerTradeRecord("POP", new BigDecimal("30.65"), (new Date()).getTime(), 439L, 'b');
+		marketController.registerTradeRecord("POP", new BigDecimal("31.65"), (new Date()).getTime(), 435L, 's');
+		marketController.registerTradeRecord("POP", new BigDecimal("32.45"), (new Date()).getTime(), 459L, 'b');
+		marketController.registerTradeRecord("POP", new BigDecimal("36.80"), (new Date()).getTime(), 435L, 's');
+		
+		expected = marketController.getVolumeWeightedPrice("POP", 5);		
+		
+		assertEquals(expected, new BigDecimal("32.88"));
 		
 	}
 	

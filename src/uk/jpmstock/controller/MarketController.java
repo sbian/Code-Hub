@@ -134,7 +134,7 @@ public class MarketController {
 		Stock stock = collection.get(symbolName);
 
 		// if no trade, a stock's volume weighted price is assigned by its normal price
-		if(tradeRecords.isEmpty()) {			
+		if(tradeRecords == null || tradeRecords.isEmpty()) {			
 			stock = collection.get(symbolName);
 			return stock.getPrice();
 		}else{
@@ -142,12 +142,12 @@ public class MarketController {
 			BigDecimal totalWeightedPrice = new BigDecimal("0");
 			for(TradeRecord tr : tradeRecords){
 				totalQuantity += tr.getQuantity();
-				totalWeightedPrice.add(new BigDecimal(((BigDecimal)tr.getDealPrice()).doubleValue() * tr.getQuantity()));
+				totalWeightedPrice = totalWeightedPrice.add(new BigDecimal(((BigDecimal)tr.getDealPrice()).doubleValue() * tr.getQuantity()));
 			}
 			
 			if(totalQuantity == 0) throw new DivideZeroOrMinusException();
 			
-			return (totalWeightedPrice.divide(new BigDecimal(totalQuantity))).setScale(2,  BigDecimal.ROUND_HALF_EVEN);
+			return (totalWeightedPrice.divide(new BigDecimal(totalQuantity),2,  BigDecimal.ROUND_HALF_EVEN));
 		}		
 	}
 	
@@ -167,7 +167,7 @@ public class MarketController {
 		if(stock == null) throw new NotExistStockException();
 		
 		List<TradeRecord> tradeRecords = stock.getTradeRecords();
-		if(tradeRecords.isEmpty()) throw new NoTradeException();
+		if(tradeRecords.isEmpty()) return null;
 		
 		List<TradeRecord> qualifiedTradeRecords = new ArrayList<TradeRecord>();
 		Date now = new Date();
