@@ -16,13 +16,21 @@ import uk.jpmstock.persistence.TradeRecord;
 import uk.jpmstock.util.DivideZeroOrMinusException;
 import uk.jpmstock.util.NotValidStockException;
 
+/**
+ * Class for test CalculateImp class with JUnit.
+ * 
+ * @author Shun Bian
+ * @since 20/06/2016
+ */
+
 public class CalculateImpTest {
 
 	BuySellType bst = new BuySellType(BuySellType.BUY);	
 	TradeRecord tr = new TradeRecord("POP", new BigDecimal("30.65"), (new Date()).getTime(), 445639L, bst);
 	ArrayList<TradeRecord> list = new ArrayList<TradeRecord>();	
 	Stock c_stock = new StockCommon("POP", new BigDecimal("30.65"), new BigDecimal("30.65"), list, new BigDecimal("100"), new BigDecimal("8"));		
-			
+		
+		
 	@Test
 	public void testGetDividentYield() throws NotValidStockException, DivideZeroOrMinusException {
 		list.add(tr);
