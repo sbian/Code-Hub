@@ -33,11 +33,11 @@ public class CalculateImp {
 		BigDecimal result;
 		if (stock instanceof StockCommon) {
 			double dividentYield = ((StockCommon) stock).getDividend().doubleValue() / price.doubleValue();
-			result = (new BigDecimal(dividentYield)).setScale(0, BigDecimal.ROUND_HALF_EVEN);
+			result = (new BigDecimal(dividentYield)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 		} else if (stock instanceof StockPreferred) {
 			double dividentYield = ((StockPreferred) stock).getFixedDivident().doubleValue()
 					* ((StockPreferred) stock).getParValue().doubleValue() / price.doubleValue();
-			result = (new BigDecimal(dividentYield)).setScale(0, BigDecimal.ROUND_HALF_EVEN);
+			result = (new BigDecimal(dividentYield)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 		} else {
 			throw new NotValidStockException();
 		}
@@ -63,11 +63,11 @@ public class CalculateImp {
 		if (stock instanceof StockCommon) {
 			checkDivideValue(((StockCommon) stock).getDividend());
 			double peRatio = price.doubleValue() / ((StockCommon) stock).getDividend().doubleValue();
-			result = (new BigDecimal(peRatio)).setScale(0, BigDecimal.ROUND_HALF_EVEN);
+			result = (new BigDecimal(peRatio)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 		} else if (stock instanceof StockPreferred) {
 			checkDivideValue(((StockCommon) stock).getDividend());
 			double peRatio = price.doubleValue() / ((StockPreferred) stock).getFixedDivident().doubleValue();
-			result = (new BigDecimal(peRatio)).setScale(0, BigDecimal.ROUND_HALF_EVEN);
+			result = (new BigDecimal(peRatio)).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 		} else {
 			throw new NotValidStockException();
 		}
