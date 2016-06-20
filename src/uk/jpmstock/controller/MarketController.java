@@ -58,7 +58,7 @@ public class MarketController {
 	 */
 	public void removeStock(Stock stock) throws NotExistStockException {
 
-		if (!stockCollection.containsKey(stock))
+		if (!stockCollection.containsKey(stock.getSymbolName()))
 			throw new NotExistStockException();
 
 		stockCollection.remove(stock);
@@ -179,6 +179,13 @@ public class MarketController {
 		}
 		
 		return qualifiedTradeRecords;
+	}
+	
+	/**
+	 * Make a new stock collection to replace the old one.
+	 */
+	public void clearStockCollection(){
+		stockCollection = new HashMap<String, Stock>();
 	}
 	
 	
